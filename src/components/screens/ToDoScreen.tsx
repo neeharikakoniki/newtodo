@@ -5,11 +5,17 @@ import {
   FlatList,
   Button,
   StyleSheet,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import TaskItem from '../TaskItem';
 import { Task } from '../../types/task';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../i18n'; 
 
 export default function ToDoScreen() {
+  const { t } = useTranslation();
+
   const [taskText, setTaskText] = useState('');
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -68,16 +74,31 @@ export default function ToDoScreen() {
     />
   );
 
+  const handleLanguageChange = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
   return (
     <View style={styles.container}>
+      {/* Language Switcher */}
+      <View style={styles.languageSwitcher}>
+        {['en', 'es', 'fr', 'de'].map((lng) => (
+          <TouchableOpacity key={lng} onPress={() => handleLanguageChange(lng)}>
+            <Text style={styles.langBtn}>{lng.toUpperCase()}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* Task Input */}
       <TextInput
-        placeholder="Enter a task"
+        placeholder={t('addTaskPlaceholder')}
         style={styles.input}
         value={taskText}
         onChangeText={setTaskText}
       />
+
       <Button
-        title="Add Task"
+        title={t('addTaskButton')}
         accessibilityLabel="button"
         onPress={handleAddTask}
       />
@@ -98,11 +119,11 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 60,
     flex: 1,
-    backgroundColor: '#e0f7fa', // light teal background
+    backgroundColor: '#e0f7fa',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#00796b', // dark teal border
+    borderColor: '#00796b',
     backgroundColor: '#ffffff',
     borderRadius: 12,
     padding: 14,
@@ -117,5 +138,15 @@ const styles = StyleSheet.create({
   listContainer: {
     marginTop: 10,
     paddingBottom: 40,
+  },
+  languageSwitcher: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+  },
+  langBtn: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#00796b',
   },
 });

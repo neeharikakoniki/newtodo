@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import ToDoScreen from './src/components/screens/ToDoScreen';
+import './src/i18n'; 
 
 export default function App() {
   return (

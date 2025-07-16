@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Task } from '../types/task';
+import { useTranslation } from 'react-i18next';
 
 interface TaskItemProps {
   task: Task;
@@ -17,6 +18,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
   onSave,
   onRemove,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.taskContainer}>
       {task.isEditing ? (
@@ -27,8 +30,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
             onChangeText={(text) => onEditTextChange(task.id, text)}
           />
           <Button
-            title="Save"
-            accessibilityLabel="button"
+            title={t('saveButton')}
+            accessibilityLabel="save-button"
             onPress={() => onSave(task.id)}
           />
         </>
@@ -36,13 +39,13 @@ const TaskItem: React.FC<TaskItemProps> = ({
         <>
           <Text style={styles.taskText}>{task.text}</Text>
           <Button
-            title="Edit"
-            accessibilityLabel="button"
+            title={t('editButton')}
+            accessibilityLabel="edit-button"
             onPress={() => onEdit(task.id)}
           />
           <Button
-            title="Remove"
-            accessibilityLabel="button"
+            title={t('removeButton')}
+            accessibilityLabel="remove-button"
             onPress={() => onRemove(task.id)}
           />
         </>
@@ -83,6 +86,5 @@ const styles = StyleSheet.create({
     color: '#004d40',
   },
 });
-
 
 export default TaskItem;
